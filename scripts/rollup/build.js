@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 const closure = require('./plugins/closure-plugin');
@@ -199,6 +200,13 @@ function getRollupOutputOptions(
     name: globalName,
     sourcemap: true,
     esModule: false,
+    sourcemapPathTransform(relativeSoucePath, sourcemapPath) {
+      relativeSoucePath = relativeSoucePath.replace(
+        '../../../../packages/',
+        ''
+      );
+      return path.resolve(__dirname, '../../', 'packages', relativeSoucePath);
+    },
   };
 }
 
